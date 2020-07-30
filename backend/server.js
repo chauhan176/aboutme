@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 app.use(cors()); 
 app.use(express.static(path.join(__dirname, 'dist/aboutme')));
 app.use('/', express.static(path.join(__dirname, 'dist/aboutme')));
-app.use('/api', profileRoute)
+app.use('/aboutme', profileRoute)
 
 // Create port
 const port = process.env.PORT || 4000;

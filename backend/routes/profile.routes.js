@@ -16,31 +16,37 @@ profileRoute.route('/dashboard').get((req, res) => {
   })
 });
 
-// Education
-profileRoute.route('/education').get((req, res) => {
+// visit function
+function visits(req, res,next){
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     console.log(fullUrl);
-    Analytic.findOneAndUpdate({ url: fullUrl }, {$inc:{counter:1}}, function(error,res){
-    if(error){
-        console.log('error found')
-        return next(error)
-    }
-    else{
-        if(!res){
-            console.log('query does not exists')
-            res =  Analytic.create({url:fullUrl})
-        }
-        res.save(function(error){
-            if(!error){
-                console.log('ohh yes')
-                res.json(data)
-            }
-            else{
-                return next(error)
-            }
-        });
-    }
-    });
-});
-  
+    Analytic.findOneAndUpdate({ url: fullUrl }, {$inc:{counter:1}}).then((error,data)=>{
+	    if(error){
+			console.log('error found')
+			res.send(error)
+	    }else{
+			if(!data){
+				console.log('query does not exists')
+				data =  Analytic.create({url:fullUrl,counter:1})
+                res.send(data)
+                console.log(data)
+			}else{
+				data.save(function(err){
+					if(!err){
+						console.log('ohh yes')
+						res.send(data)
+					}
+					else{
+						res.send(err)
+					}
+				});
+			}
+		}
+	});
+}
+profileRoute.get("/links",visits);
+profileRoute.get("/education",visits);
+profileRoute.get("/experience",visits);
+profileRoute.get("/achievements",visits);
+profileRoute.get("/volunteering",visits);
 module.exports = profileRoute;
