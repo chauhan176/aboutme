@@ -24,21 +24,33 @@ profileRoute.route('/dashboard').get((req, res) => {
 // visit function
 function visits(req, res,next){
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log(fullUrl);
-    Analytic.findOneAndUpdate({ url: fullUrl }, {$inc:{counter:1}}).then((error,data)=>{
-	    if(error){
-			console.log('error found')
+	console.log(fullUrl);
+	Analytic.findOneAndUpdate({ url: fullUrl }, {$inc:{counter:1}},{ new: true, upsert: true }).exec((error,data)=>{
+		if(error){
 			res.send(error)
-	    }else{
+		}
+		else{
 			if(!data){
-				console.log('query does not exists')
-				data =  Analytic.create({url:fullUrl,counter:1})
-                res.send(data)
-                console.log(data)
-			}else{
+				data = new Analytic({url: fullUrl,counter:1});
+				console.log(data.createdAt)
+				data.save(function (err) {
+				console.log(data.createdAt); // Should be approximately now
+				console.log(data.createdAt === data.updatedAt); // true
+				// Wait 1 second and then update the user
+				setTimeout( function () {
+				data.save( function (err) {
+				console.log(data.updatedAt); // Should be approximately createdAt + 1 second
+				console.log(data.createdAt < dataupdatedAt); // true
+				});
+				res.send(data)
+			  }, 1000);
+			});
+			}
+			else{
 				data.save(function(err){
 					if(!err){
 						console.log('ohh yes')
+						console.log(data.updatedAt - data.createdAt)
 						res.send(data)
 					}
 					else{

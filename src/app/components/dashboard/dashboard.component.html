@@ -8,12 +8,16 @@
         <tr>
           <th scope="col">Url</th>
           <th scope="col">Number of visits</th>
+          <th scope="col">Created at</th>
+          <th scope="col">Updated at</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let vis of visits">
           <th scope="row">{{vis.url}}</th>
           <td>{{vis.counter}}</td>
+          <td>{{vis.createdAt}}</td>
+          <td>{{vis.updatedAt}}</td>
         </tr>
       </tbody>
     </table>
