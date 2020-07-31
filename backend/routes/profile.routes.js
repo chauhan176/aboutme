@@ -5,6 +5,7 @@ const profileRoute = express.Router();
 let Analytic = require('../models/analytics');
 let counts = require('../models/counts');
 
+// object with max and min counters
 var maxVMinValues = ()=>{
 	return (new Promise((resolve, rejects)=>{
 		var values = {}
@@ -31,7 +32,6 @@ profileRoute.route('/dashboard').get((req, res) => {
 		  total_count = await counts.aggregate([{$group:{_id:"total_count",counter:{$sum:"$counter"}}}]);
 		  total_average = await counts.aggregate([{$group:{_id:"total_average",avgpermin:{$sum:"$avgpermin"}}}]);  
 		  maxmindata = await maxVMinValues();
-		  console.log(maxmindata);
 		  var response = {
 			  'total_counter' : total_count[0]['counter'],
 			  'total_average' : total_average[0]['avgpermin'],
@@ -94,7 +94,7 @@ function visits(req, res,next){
 			}
 		}
 	});
-	console.log("reachead here")
+	//console.log("reachead here")
 	updateval(fullUrl);
 }
 profileRoute.get("/intro",visits);
