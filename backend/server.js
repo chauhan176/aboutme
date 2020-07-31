@@ -51,7 +51,6 @@ async function mySeedr(pageurl,pagename){
 }
 mySeedr('http://localhost:4000/intro',"Introduction");
 mySeedr('http://localhost:4000/education',"Education");
-mySeedr('http://localhost:4000/work-experience',"Work-Experience");
 mySeedr('http://localhost:4000/projects',"Projects");
 mySeedr('http://localhost:4000/achievements',"Achievements");
 mySeedr('http://localhost:4000/technical-skills',"Technical-Skills");

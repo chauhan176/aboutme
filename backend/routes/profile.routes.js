@@ -31,6 +31,7 @@ profileRoute.route('/dashboard').get((req, res) => {
 		  total_count = await counts.aggregate([{$group:{_id:"total_count",counter:{$sum:"$counter"}}}]);
 		  total_average = await counts.aggregate([{$group:{_id:"total_average",avgpermin:{$sum:"$avgpermin"}}}]);  
 		  maxmindata = await maxVMinValues();
+		  console.log(maxmindata);
 		  var response = {
 			  'total_counter' : total_count[0]['counter'],
 			  'total_average' : total_average[0]['avgpermin'],
@@ -98,7 +99,6 @@ function visits(req, res,next){
 }
 profileRoute.get("/intro",visits);
 profileRoute.get("/education",visits);
-profileRoute.get("/work-experience",visits);
 profileRoute.get("/projects",visits);
 profileRoute.get("/achievements",visits);
 profileRoute.get("/technical-skills",visits);

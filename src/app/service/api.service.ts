@@ -29,11 +29,6 @@ export class ApiService {
     return this.http.get('http://localhost:4000/education');
   }
   
-  //get work-experience counters
-  public updateworkexp(){
-    return this.http.get('http://localhost:4000/work-experience');
-  }
-  
   //get projects counters
   public updateprojects(){
     return this.http.get('http://localhost:4000/projects');

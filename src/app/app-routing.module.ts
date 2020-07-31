@@ -4,7 +4,6 @@ import { IntroComponent } from './components/intro/intro.component';
 import { EducationComponent } from './components/education/education.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
-import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AchievementsComponent } from './components/achievements/achievements.component';
 import { TechnicalSkillsComponent } from './components/technical-skills/technical-skills.component';
@@ -14,7 +13,6 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'intro', component: IntroComponent },
   { path: 'education', component: EducationComponent },
-  { path: 'work-experience', component: WorkExperienceComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'achievements', component: AchievementsComponent },
   { path: 'technical-skills', component: TechnicalSkillsComponent }  
