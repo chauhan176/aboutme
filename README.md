@@ -1,5 +1,5 @@
-# MEAN stack Activity Tracker app
-This project was built with Angular CLI version 7.2.3.
+# MEAN stack Resume Activity Tracker app
+A MEAN stack app which keeps the analytics of the different sections of your Resume.(i.e. Introduction , Education , Projects , Achievements , Technical-Skills).
 
 ## How to run the app?
 - Run `npm install` to install required angular dependencies.
@@ -8,3 +8,7 @@ This project was built with Angular CLI version 7.2.3.
   - `cd backend` to enter into the backend folder
   - Run `npm install` to install required backend dependencies.
   - `mongod` to start the mongoDB shell (or open mongod.exe manually)
+
+## Using the app
+- The front end runs at http://localhost:4200 
+    - Open http://localhost:4200/dashboard to view the dashboard 
