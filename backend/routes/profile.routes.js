@@ -44,9 +44,11 @@ function visits(req, res,next){
 		}
 	});
 }
-profileRoute.get("/links",visits);
+profileRoute.get("/intro",visits);
 profileRoute.get("/education",visits);
-profileRoute.get("/experience",visits);
+profileRoute.get("/work-experience",visits);
+profileRoute.get("/projects",visits);
 profileRoute.get("/achievements",visits);
-profileRoute.get("/volunteering",visits);
+profileRoute.get("/technical-skills",visits);
+profileRoute.get("/volunteering-exp",visits);
 module.exports = profileRoute;
