@@ -29,6 +29,26 @@ export class ApiService {
     return this.http.get('http://localhost:4000/education');
   }
   
+  //get work-experience counters
+  public updateworkexp(){
+    return this.http.get('http://localhost:4000/work-experience');
+  }
+  
+  //get projects counters
+  public updateprojects(){
+    return this.http.get('http://localhost:4000/projects');
+  }
+  
+  //get achievements counters
+  public updateachievements(){
+    return this.http.get('http://localhost:4000/achievements');
+  }
+  
+  //get technical skills counters
+  public updatetechskills(){
+    return this.http.get('http://localhost:4000/technical-skills');
+  }
+  
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';

@@ -12,13 +12,15 @@ import { HttpClient } from '@angular/common/http';
 export class DashboardComponent implements OnInit {
   
   visits;
+  total_count;
   constructor(private apiService: ApiService) { 
   }
 
   ngOnInit(): void {
     this.apiService.getvisits().subscribe((data)=>{
       console.log(data);
-      this.visits = data;
+      this.visits = data['all_data'];
+      this.total_count = data['total_counter'];
     });
   }
 }

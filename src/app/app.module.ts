@@ -7,13 +7,21 @@ import { IntroComponent } from './components/intro/intro.component';
 import { EducationComponent } from './components/education/education.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
+import { ProjectsComponent } from './components/projects/projects.component';
+import { AchievementsComponent } from './components/achievements/achievements.component';
+import { TechnicalSkillsComponent } from './components/technical-skills/technical-skills.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IntroComponent,
     EducationComponent,
-    DashboardComponent
+    DashboardComponent,
+    WorkExperienceComponent,
+    ProjectsComponent,
+    AchievementsComponent,
+    TechnicalSkillsComponent
   ],
   imports: [
     BrowserModule,

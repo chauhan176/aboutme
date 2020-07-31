@@ -5,13 +5,18 @@ const profileRoute = express.Router();
 let Analytic = require('../models/analytics');
 // Dashboard
 profileRoute.route('/dashboard').get((req, res) => {
-  Analytic.find((error, data) => {
+  Analytic.find(async(error, data) => {
     if (error) {
         console.log('error found')
         return next(error)
     } else {
-        console.log('ohh yes')
-        res.json(data)
+		console.log('ohh yes')
+		total_count = await Analytic.aggregate([{$group:{_id:"total_count",counter:{$sum:"$counter"}}}]);
+		var response = {
+			'total_counter' : total_count[0]['counter'],
+			'all_data':data
+		}
+        res.json(response)
     }
   })
 });
@@ -50,5 +55,4 @@ profileRoute.get("/work-experience",visits);
 profileRoute.get("/projects",visits);
 profileRoute.get("/achievements",visits);
 profileRoute.get("/technical-skills",visits);
-profileRoute.get("/volunteering-exp",visits);
 module.exports = profileRoute;
