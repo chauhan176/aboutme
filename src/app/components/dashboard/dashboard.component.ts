@@ -13,6 +13,8 @@ export class DashboardComponent implements OnInit {
   
   visits;
   total_count;
+  total_average;
+  maxmindata;
   constructor(private apiService: ApiService) { 
   }
 
@@ -21,6 +23,8 @@ export class DashboardComponent implements OnInit {
       console.log(data);
       this.visits = data['all_data'];
       this.total_count = data['total_counter'];
+      this.total_average = data['total_average'];
+      this.maxmindata = data['maxmindata'];
     });
   }
 }

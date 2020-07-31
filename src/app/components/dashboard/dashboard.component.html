@@ -2,23 +2,24 @@
     <!-- No data message -->
     <p *ngIf="visits.length <= 0" class="no-data text-center">There is no employee added yet!</p>
     <div class="center"><p>Total number of visits on the website is {{total_count}}</p></div>
+    <div class="center"><p>Average number of the visits on the website is {{total_average}}</p></div>
     <!-- Employee list -->
     <table class="table table-bordered" *ngIf="visits.length > 0">
       <thead class="table-success">
         <tr>
-          <th scope="col">Url</th>
+          <th scope="col">Name of the Page</th>
           <th scope="col">Number of visits</th>
-          <th scope="col">Created at</th>
-          <th scope="col">Updated at</th>
+          <th scope="col">Average Number of Visits per min</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let vis of visits">
-          <th scope="row">{{vis.url}}</th>
+          <th scope="row">{{vis.name}}</th>
           <td>{{vis.counter}}</td>
-          <td>{{vis.createdAt}}</td>
-          <td>{{vis.updatedAt}}</td>
+          <td>{{vis.avgpermin}}</td>
         </tr>
       </tbody>
     </table>
+    <div class="center"><p>Average number of the visits on the website is {{maxmindata.max.name}}</p></div>
+
   </div>

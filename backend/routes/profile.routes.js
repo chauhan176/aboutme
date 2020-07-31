@@ -5,95 +5,95 @@ const profileRoute = express.Router();
 let Analytic = require('../models/analytics');
 let counts = require('../models/counts');
 
+var maxVMinValues = ()=>{
+	return (new Promise((resolve, rejects)=>{
+		var values = {}
+		counts.find({}).sort({ counter: -1 })
+			.then((data) => {
+				values["max"]=data[0]
+				values["min"] = data[data.length-1]
+				resolve(values)
+			})
+			.catch((err)=>{
+				rejects(err)
+			})
+	}))
+}
+
 // Dashboard
 profileRoute.route('/dashboard').get((req, res) => {
-  Analytic.find(async(error, data) => {
-    if (error) {
-        console.log('error found')
-        return next(error)
-    } else {
-		console.log('ohh yes')
-		total_count = await Analytic.aggregate([{$group:{_id:"total_count",counter:{$sum:"$counter"}}}]);
-		var response = {
-			'total_counter' : total_count[0]['counter'],
-			'all_data':data
-		}
-        res.json(response)
-    }
-  })
+	counts.find(async(error, data) => {
+	  if (error) {
+		  console.log('error found')
+		  return next(error)
+	  } else {
+		  console.log('ohh yes')
+		  total_count = await counts.aggregate([{$group:{_id:"total_count",counter:{$sum:"$counter"}}}]);
+		  total_average = await counts.aggregate([{$group:{_id:"total_average",avgpermin:{$sum:"$avgpermin"}}}]);  
+		  maxmindata = await maxVMinValues();
+		  var response = {
+			  'total_counter' : total_count[0]['counter'],
+			  'total_average' : total_average[0]['avgpermin'],
+			  'maxmindata' : maxmindata,
+			  'all_data':data
+		  }
+		  res.json(response)
+	  }
+	})
 });
 //update counter and avgpermin
 async function updateval(pageurl){
-	const data = await Analytic.findOne({url:pageurl}).exec()
+	const data = await Analytic.findOne({url:pageurl});
+	console.log(data)
 	if(data.length!==0){
-		console.log(data);
 		var cnt = data['counter'];
 		var temp = (data['updatedAt'] - data['createdAt']);
 		var avg = cnt/temp;
 		avg = avg*6000;
-		if(temp==0)avg = cnt;
-		console.log(cnt);
-		console.log(avg);
-		counts.findOneAndUpdate({url:pageurl},{counter:cnt,avgpermin:avg}).exec((error,datatemp)=>{
-			if(error){
-				return;
-			}
-			else{
-				datatemp.save(function(error){
-					if(!error){
-						console.log('ohh yes')
-						console.log(datatemp)
-					}
-					else{
-						console.log('error')
-					}
-				});
-			}
-		});
-	}
-	else{
+		if(temp==0) avg = cnt;
+		counts.findOneAndUpdate({url:pageurl},{counter:cnt,avgpermin:avg},{ new: true })
+		.then((datatemp)=>{
+			console.log(datatemp)
+		})
+		.catch((err)=>{
+			console.log(err)
+		})
+	}else{
 		return;
 	}
 }
 // visit function
 function visits(req, res,next){
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-	console.log(fullUrl);
+
 	Analytic.findOneAndUpdate({ url: fullUrl }, {$inc:{counter:1}},{ new: true, upsert: true }).exec((error,data)=>{
 		if(error){
 			res.send(error)
-		}
-		else{
+		}else{
 			if(!data){
 				data = new Analytic({url: fullUrl,counter:1});
-				console.log(data.createdAt)
-				data.save(function (err) {
-				console.log(data.createdAt); // Should be approximately now
-				console.log(data.createdAt === data.updatedAt); // true
-				// Wait 1 second and then update the user
-				setTimeout( function () {
-				data.save( function (err) {
-				console.log(data.updatedAt); // Should be approximately createdAt + 1 second
-				console.log(data.createdAt < dataupdatedAt); // true
-				});
-				res.send(data)
-			  });
-			});
-			}
-			else{
-				data.save(function(err){
-					if(!err){
-						console.log('ohh yes')
-						console.log(data.updatedAt - data.createdAt)
-						res.send(data)
-					}
-					else{
-						res.send(err)
-					}
-				});
+				data.save()
+				.then((dat)=>{
+					console.log(dat)
+					res.send(dat)
+				})
+				.catch((err)=>{
+					console.log(err)
+				})
+			}else{
+				data.save()
+				.then((dat)=>{
+					console.log(dat.updatedAt - dat.createdAt)
+					res.send(dat)
+				})
+				.catch((err)=>{
+					console.log(err);
+					res.send(err)
+				})
 			}
 		}
 	});
+	console.log("reachead here")
 	updateval(fullUrl);
 }
 profileRoute.get("/intro",visits);
