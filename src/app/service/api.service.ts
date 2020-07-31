@@ -18,6 +18,17 @@ export class ApiService {
   public getvisits(){
     return this.http.get('http://localhost:4000/dashboard');
   }
+
+  //get intro counters
+  public updateintro(){
+    return this.http.get('http://localhost:4000/intro');
+  }
+
+  //get education counters
+  public updateeducation(){
+    return this.http.get('http://localhost:4000/education');
+  }
+  
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';

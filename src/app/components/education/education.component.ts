@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from './../../service/api.service';
 
 @Component({
   selector: 'app-education',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EducationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apiService: ApiService) { 
+  }
 
   ngOnInit(): void {
+    this.apiService.updateeducation().subscribe((data)=>{
+      console.log(data);
+    });
   }
 
 }
