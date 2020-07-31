@@ -5,7 +5,7 @@ let express = require('express'),
    bodyParser = require('body-parser'),
    dbConfig = require('./database/db'),
    createError = require('createerror');
-
+let seed = require('./models/counts');
 // Connecting with mongo db
 mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
@@ -20,7 +20,8 @@ mongoose.connect(dbConfig.db, {
 )
 
 // Setting up port with express js
-const profileRoute = require('../backend/routes/profile.routes')
+const profileRoute = require('../backend/routes/profile.routes');
+const counts = require('./models/counts');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -36,6 +37,24 @@ const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
   console.log('Connected to port ' + port)
 })
+
+//seeding logic
+async function mySeedr(pageurl,pagename){
+   const data = await counts.find({url:pageurl}).exec();
+   if(data.length!==0){
+      return;
+   }
+   else{
+      const seed = new counts({url:pageurl,name:pagename,counter:0,avgpermin:0});
+      await seed.save()
+   }
+}
+mySeedr('http://localhost:4000/intro',"Introduction");
+mySeedr('http://localhost:4000/education',"Education");
+mySeedr('http://localhost:4000/work-experience',"Work-Experience");
+mySeedr('http://localhost:4000/projects',"Projects");
+mySeedr('http://localhost:4000/achievements',"Achievements");
+mySeedr('http://localhost:4000/technical-skills',"Technical-Skills");
 
 // Find 404 and hand over to error handler
 app.use((req, res, next) => {

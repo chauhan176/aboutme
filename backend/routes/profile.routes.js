@@ -3,6 +3,8 @@ const app = express();
 const profileRoute = express.Router();
 // Analytics model
 let Analytic = require('../models/analytics');
+let counts = require('../models/counts');
+
 // Dashboard
 profileRoute.route('/dashboard').get((req, res) => {
   Analytic.find(async(error, data) => {
@@ -20,7 +22,39 @@ profileRoute.route('/dashboard').get((req, res) => {
     }
   })
 });
-
+//update counter and avgpermin
+async function updateval(pageurl){
+	const data = await Analytic.findOne({url:pageurl}).exec()
+	if(data.length!==0){
+		console.log(data);
+		var cnt = data['counter'];
+		var temp = (data['updatedAt'] - data['createdAt']);
+		var avg = cnt/temp;
+		avg = avg*6000;
+		if(temp==0)avg = cnt;
+		console.log(cnt);
+		console.log(avg);
+		counts.findOneAndUpdate({url:pageurl},{counter:cnt,avgpermin:avg}).exec((error,datatemp)=>{
+			if(error){
+				return;
+			}
+			else{
+				datatemp.save(function(error){
+					if(!error){
+						console.log('ohh yes')
+						console.log(datatemp)
+					}
+					else{
+						console.log('error')
+					}
+				});
+			}
+		});
+	}
+	else{
+		return;
+	}
+}
 // visit function
 function visits(req, res,next){
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -43,7 +77,7 @@ function visits(req, res,next){
 				console.log(data.createdAt < dataupdatedAt); // true
 				});
 				res.send(data)
-			  }, 1000);
+			  });
 			});
 			}
 			else{
@@ -60,6 +94,7 @@ function visits(req, res,next){
 			}
 		}
 	});
+	updateval(fullUrl);
 }
 profileRoute.get("/intro",visits);
 profileRoute.get("/education",visits);

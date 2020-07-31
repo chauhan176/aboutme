@@ -14,5 +14,7 @@ let analytic = new Schema({
       required: true
    }
 })
+
 analytic.plugin(timestamps);
 module.exports = mongoose.model('analytic', analytic)
+
