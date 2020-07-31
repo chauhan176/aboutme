@@ -12,3 +12,11 @@ A MEAN stack app which keeps the analytics of the different sections of your Res
 ## Using the app
 - The front end runs at http://localhost:4200 
     - Open http://localhost:4200/dashboard to view the dashboard 
+
+## Description
+The Resume contains various sections (i.e. Introduction , Education , Projects , Achievements , Technical-Skills).
+Each Section can be viewed separatly by clicking at buttons provided on the header.
+ 
+The dashboard contains the number of visits and the average number of visits per min of all the sections.
+The total number of visits and average visit per min for the website.
+The Most highlighted section of the resume and the Least highlighted section of the resume.
