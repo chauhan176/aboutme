@@ -20,3 +20,5 @@ Each Section can be viewed separatly by clicking at buttons provided on the head
 The dashboard contains the number of visits and the average number of visits per min of all the sections.
 The total number of visits and average visit per min for the website.
 The Most highlighted section of the resume and the Least highlighted section of the resume.
+
+![Dashboard](/dashboard.png)
